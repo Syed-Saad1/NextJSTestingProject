@@ -2,7 +2,6 @@ import UserFetch from "@/app/action/userServerAction";
 
 export default async function UsersList() {
   const users = await UserFetch();
-  console.log("Useers", users);
   return (
     <section>
       <h2>All Users ({users.length})</h2>
