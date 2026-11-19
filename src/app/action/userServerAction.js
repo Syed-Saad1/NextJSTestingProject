@@ -2,10 +2,8 @@
 import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/app/model/User";
-import { connection } from "next/server";
-export async function createUserAction(prevState, formData) {
-  const name = formData.get("name");
-  const email = formData.get("email");
+export async function createUserAction(data) {
+  const { name, email } = data ?? {};
   if (
     typeof name !== "string" ||
     !name.trim() ||
@@ -23,6 +21,11 @@ export async function createUserAction(prevState, formData) {
       name: name.trim(),
       email: email.trim().toLowerCase(),
     });
+    revalidatePath("/users");
+    return {
+      success: true,
+      message: "User created successfully",
+    };
   } catch (error) {
     if (error.code === 11000) {
       return {
@@ -42,17 +45,4 @@ export async function createUserAction(prevState, formData) {
       message: "Unable to create user",
     };
   }
-  revalidatePath("/users");
-  return {
-    success: true,
-    message: "User created successfully",
-  };
-}
-
-export default async function UserFetch() {
-  await connection();
-  await connectDB();
-
-  const users = await User.find().sort({ createdAt: -1 }).lean();
-  return users;
 }

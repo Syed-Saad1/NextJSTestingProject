@@ -1,7 +1,7 @@
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
-import Providers from "./provider";
+import QueryProvider from "@/providers/QueryProvider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
         </div>
         <div className="grow">
           {" "}
-          <Providers>{children}</Providers>
+          <QueryProvider>{children}</QueryProvider>
         </div>
       </body>
     </html>

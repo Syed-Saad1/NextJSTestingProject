@@ -4,7 +4,6 @@
 
 // async function UsersContent() {
 //   await connectDB();
-
 //   return <Users />;
 // }
 
@@ -16,20 +15,38 @@
 //   );
 // }
 
-import UserForm from "@/components/UserForm";
-import UsersList from "@/components/UserList";
-import { Suspense } from "react";
+// import UserForm from "@/components/UserForm";
+// import UsersList from "@/components/UserList";
+// import { Suspense } from "react";
 
-export default function UsersPage() {
+// export default function UsersPage() {
+//   return (
+//     <main>
+//       <h1>User Management</h1>
+
+//       <UserForm />
+
+//       <Suspense fallback={<p>Loading users...</p>}>
+//         <UsersList />
+//       </Suspense>
+//     </main>
+//   );
+// }
+
+import { connection } from "next/server";
+import { getUsers } from "@/services/user.service";
+import CreateUserForm from "@/components/UserForm";
+
+export default async function UsersPage() {
+  await connection();
+
+  const users = await getUsers();
+
   return (
     <main>
       <h1>User Management</h1>
 
-      <UserForm />
-
-      <Suspense fallback={<p>Loading users...</p>}>
-        <UsersList />
-      </Suspense>
+      <CreateUserForm />
     </main>
   );
 }

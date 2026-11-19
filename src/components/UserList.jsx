@@ -1,22 +1,17 @@
-import UserFetch from "@/app/action/userServerAction";
-
-export default async function UsersList() {
-  const users = await UserFetch();
+export default function UsersList({ users }) {
   return (
-    <section>
-      <h2>All Users ({users.length})</h2>
+    <div>
+      <h2>Users List</h2>
 
-      {users.length === 0 ? (
-        <p>No users found</p>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <li key={user._id.toString()}>
-              {user.name} — {user.email}
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+      {users.map((user) => (
+        <div key={user.id}>
+          <h3>
+            {" "}
+            {user.name.first} {user.name.last}
+          </h3>
+          <p>{user.email}</p>
+        </div>
+      ))}
+    </div>
   );
 }

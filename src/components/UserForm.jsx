@@ -1,42 +1,48 @@
 "use client";
-import { createUserAction } from "@/app/action/userServerAction";
-import { useActionState } from "react";
-const initialState = {
-  success: false,
-  message: "",
-};
-export default function UserForm() {
-  const [state, formAction, isPending] = useActionState(
-    createUserAction,
-    initialState,
-  );
+
+import { useCreateUser } from "@/mutation/useCreateUser";
+import { useState } from "react";
+
+export default function CreateUserForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const mutation = useCreateUser();
+  function handleSubmit(e) {
+    e.preventDefault();
+    mutation.mutate(
+      { name, email },
+      {
+        onSuccess: () => {
+          setName("");
+          setEmail("");
+        },
+      },
+    );
+  }
   return (
-    <form action={formAction}>
-      <h2>Create User</h2>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          className="border-2 border-border outline-none "
-          id="name"
-          type="text"
-          name="name"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          className="border-2 mt-2 border-border outline-none "
-          id="email"
-          type="email"
-          name="email"
-          required
-        />
-      </div>
-      <button type="submit" disabled={isPending}>
-        {isPending ? "Saving..." : "Create User"}
+    <form onSubmit={handleSubmit}>
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Name"
+        required
+      />
+
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+        type="email"
+        required
+      />
+
+      <button type="submit" disabled={mutation.isPending}>
+        {mutation.isPending ? "Creating..." : "Create User"}
       </button>
-      {state.message && <p role="status">{state.message}</p>}
+
+      {mutation.isError && <p>{mutation.error.message}</p>}
+
+      {mutation.isSuccess && <p>User created successfully</p>}
     </form>
   );
 }
