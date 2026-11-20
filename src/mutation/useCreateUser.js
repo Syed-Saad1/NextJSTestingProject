@@ -7,15 +7,7 @@ export function useCreateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data) => {
-      const response = await createUserAction(data);
-
-      if (!response.success) {
-        throw new Error(response.message);
-      }
-
-      return response;
-    },
+    mutationFn: (payload) => createUserAction(payload),
 
     onSuccess: () => {
       queryClient.invalidateQueries({

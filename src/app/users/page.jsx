@@ -33,20 +33,31 @@
 //   );
 // }
 
-import { connection } from "next/server";
-import { getUsers } from "@/services/user.service";
+// import { connection } from "next/server";
+// import { getUsers } from "@/services/user.service";
+// import CreateUserForm from "@/components/UserForm";
+
+// export default async function UsersPage() {
+//   await connection();
+
+//   const users = await getUsers();
+
+//   return (
+//     <main>
+//       <h1>User Management</h1>
+
+//       <CreateUserForm />
+//     </main>
+//   );
+// }
+import GetUserList from "@/components/GetUserList";
 import CreateUserForm from "@/components/UserForm";
 
-export default async function UsersPage() {
-  await connection();
-
-  const users = await getUsers();
-
+export default function page() {
   return (
-    <main>
-      <h1>User Management</h1>
-
+    <>
       <CreateUserForm />
-    </main>
+      <GetUserList />
+    </>
   );
 }

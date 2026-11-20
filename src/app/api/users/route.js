@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/app/model/User";
-
+import { useGetServerAction } from "@/app/action/useGetServerAction";
 export async function POST(request) {
   try {
     await connectDB();
@@ -11,7 +11,6 @@ export async function POST(request) {
       name: body.name,
       email: body.email,
     });
-
     return NextResponse.json(
       {
         success: true,
@@ -50,27 +49,15 @@ export async function POST(request) {
     );
   }
 }
-
 export async function GET() {
   try {
     await connectDB();
-    console.log("Database:", User.db.name);
-    console.log("Collection:", User.collection.name);
-    console.log("Schema Unique:", User.schema.path("email").options.unique);
-
-    const indexes = await User.collection.indexes();
-
-    console.log("MongoDB Indexes:", indexes);
-
-    const users = await User.find().lean();
-
+    const users = await useGetServerAction();
     return NextResponse.json({
       success: true,
       data: users,
     });
   } catch (error) {
-    console.error(error);
-
     return NextResponse.json(
       { success: false, message: "Server error" },
       { status: 500 },
