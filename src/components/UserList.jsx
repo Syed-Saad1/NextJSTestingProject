@@ -2,7 +2,6 @@ export default function UsersList({ users }) {
   return (
     <div>
       <h2>Users List</h2>
-
       {users.map((user) => (
         <div key={user.id}>
           <h3>

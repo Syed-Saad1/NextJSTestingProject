@@ -6,7 +6,6 @@ export async function POST(request) {
   try {
     await connectDB();
     const body = await request.json();
-
     const user = await User.create({
       name: body.name,
       email: body.email,

@@ -1,7 +1,6 @@
 "use server";
 
 import User from "../model/User";
-
 export async function useGetServerAction() {
   try {
     const users = await User.find({})

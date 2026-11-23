@@ -1,8 +1,5 @@
 "use client";
-
-import { useGetServerAction } from "@/app/action/useGetServerAction";
 import { useQuery } from "@tanstack/react-query";
-
 export function useUsers() {
   return useQuery({
     queryKey: ["users"],

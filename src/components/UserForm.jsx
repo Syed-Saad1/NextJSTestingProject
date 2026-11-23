@@ -1,8 +1,6 @@
 "use client";
-
 import { useCreateUser } from "@/mutation/useCreateUser";
 import { useState } from "react";
-
 export default function CreateUserForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
